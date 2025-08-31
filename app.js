@@ -54,11 +54,27 @@ let names = [
 // fazer botão com contador e cada clique ordena por posição ou por jogadora e guardar essa contagem no local storage
 // Botão editar que transforma o texto em um input e cria um botão cancelar
 // Botão excluir com alert de confirmação
-const btnTeste = document.getElementById("btnMultiUse");
-btnTeste.addEventListener("click", (event) => {
+function handleCreateDiv(event){
   event.preventDefault();
+  const headFunc = document.querySelector("#headFunc")
+  const createDiv = document.createElement('div')
+  createDiv.innerHTML = `
+  <input"/>
+  <form id="nome">
+  <input/>
+  <input/>
+  <input/>
+  <input/>
+  <button id="btnCreateCard">Criar</button>
+  </form>
+  `
+  headFunc.append(createDiv)
+};
+
+function handleCreateCard() {
+  const name = document.getElementById(nome).value
   names.unshift({
-    nome: "Letícia Teles",
+    nome: {name},
     posicao: "Zagueira",
     clube: "Corinthians",
     foto: "https://example.com/leticia.jpg",
@@ -67,26 +83,34 @@ btnTeste.addEventListener("click", (event) => {
     jogos: 18,
     favorita: false,
   });
+  localStorage.setItem("cards", name)
   displayCards();
-});
+} 
 
 function displayCards() {
   const cardsDiv = document.querySelector("#PlayersCards");
   cardsDiv.innerHTML = ``;
-  const localNames = JSON.parse(localStorage.getItem("cards")) || names;
-
+  let localNames = JSON.parse(localStorage.getItem("cards")) 
+  if (!localNames){
+    localNames = names
+    localStorage.setItem("cards", JSON.stringify(names));
+  }
+  
   localNames.forEach((element) => {
     const card = document.createElement("div");
     card.innerHTML = `
     <img src="${element.foto}"></img>
     <h3>${element.nome}</h3>
+    <button>Favoritar</button>
     `;
     cardsDiv.append(card);
   });
-
-  localStorage.setItem("cards", JSON.stringify(names));
+  
 }
 
 window.onload = function () {
   displayCards();
+  
+  document.querySelector("#btnCreate").addEventListener('click', handleCreateDiv);
+  document.querySelector("#btnCreateCard").addEventListener('click', handleCreateCard);
 };
