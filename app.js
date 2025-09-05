@@ -127,27 +127,24 @@ function displayCards() {
     <button class="btnEdit">Editar</button>
     <button class="btnDel">Excluir</button>
     `;
-    document.querySelector(".btnDel").addEventListener("click", () => {
+    card.querySelector(".btnDel").addEventListener("click", () => {
       if (confirm("Deseja deletar o post?")) {
         localNames.splice(index, 1);
         localStorage.setItem("cards", JSON.stringify(localNames));
+        displayCards();
       }
     });
-    document.querySelector(".btnFav").addEventListener("click", handleFav);
-    document.querySelector(".btnEdit").addEventListener("click", handleEdit);
+    card.querySelector(".btnFav").addEventListener("click", () => {
+      card.querySelector(".btnFav img").src = "./assets/icons/coracao.png";
+      localNames[index].favorita = true;
+      localStorage.setItem("cards", JSON.stringify(localNames));
+    });
+    card.querySelector(".btnEdit").addEventListener("click", handleEdit);
     cardsDiv.append(card);
   });
 }
 
-function handleFav(event) {
-  alert();
-}
-
 function handleEdit(event) {
-  alert();
-}
-
-function handleDel(event) {
   alert();
 }
 
