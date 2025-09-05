@@ -54,63 +54,110 @@ let names = [
 // fazer botão com contador e cada clique ordena por posição ou por jogadora e guardar essa contagem no local storage
 // Botão editar que transforma o texto em um input e cria um botão cancelar
 // Botão excluir com alert de confirmação
-function handleCreateDiv(event){
+function handleCreateDiv(event) {
   event.preventDefault();
-  const headFunc = document.querySelector("#headFunc")
-  const createDiv = document.createElement('div')
+  const headFunc = document.querySelector("#headFunc");
+  const createDiv = document.createElement("div");
   createDiv.innerHTML = `
-  <input"/>
-  <form id="nome">
-  <input/>
-  <input/>
-  <input/>
-  <input/>
-  <button id="btnCreateCard">Criar</button>
-  </form>
-  `
-  headFunc.append(createDiv)
-};
+    <input type="text" id="nomeInput" placeholder="Nome da jogadora" />
+    <input type="text" id="posicaoInput" placeholder="Posição" />
+    <input type="text" id="clubeInput" placeholder="Clube" />
+    <input type="text" id="fotoInput" placeholder="URL da Foto" />
+    <input type="number" id="golsInput" placeholder="Gols" />
+    <input type="number" id="assistenciasInput" placeholder="Assistências" />
+    <input type="number" id="jogosInput" placeholder="Jogos" />
+    <button id="btnCreateCard">Criar</button>
+  `;
 
-function handleCreateCard() {
-  const name = document.getElementById(nome).value
-  names.unshift({
-    nome: {name},
-    posicao: "Zagueira",
-    clube: "Corinthians",
-    foto: "https://example.com/leticia.jpg",
-    gols: 0,
-    assistencias: 0,
-    jogos: 18,
+  headFunc.append(createDiv);
+  document
+    .querySelector("#btnCreateCard")
+    .addEventListener("click", handleCreateCard);
+}
+
+function handleCreateCard(event) {
+  event.preventDefault();
+
+  const nome = document.getElementById("nomeInput").value.trim();
+  const posicao = document.getElementById("posicaoInput").value.trim();
+  const clube = document.getElementById("clubeInput").value.trim();
+  const foto = document.getElementById("fotoInput").value.trim();
+  const gols = parseInt(document.getElementById("golsInput").value);
+  const assistencias = parseInt(
+    document.getElementById("assistenciasInput").value
+  );
+  const jogos = parseInt(document.getElementById("jogosInput").value);
+
+  if (!nome) return alert("Digite o nome da jogadora!");
+
+  let localNames = JSON.parse(localStorage.getItem("cards"));
+
+  localNames.unshift({
+    nome,
+    posicao,
+    clube,
+    foto,
+    gols,
+    assistencias,
+    jogos,
     favorita: false,
   });
-  localStorage.setItem("cards", name)
+
+  localStorage.setItem("cards", JSON.stringify(localNames));
   displayCards();
-} 
+}
 
 function displayCards() {
   const cardsDiv = document.querySelector("#PlayersCards");
   cardsDiv.innerHTML = ``;
-  let localNames = JSON.parse(localStorage.getItem("cards")) 
-  if (!localNames){
-    localNames = names
+  let localNames = JSON.parse(localStorage.getItem("cards"));
+  if (!localNames) {
+    localNames = names;
     localStorage.setItem("cards", JSON.stringify(names));
   }
-  
-  localNames.forEach((element) => {
+
+  localNames.forEach((element, index) => {
     const card = document.createElement("div");
     card.innerHTML = `
     <img src="${element.foto}"></img>
     <h3>${element.nome}</h3>
-    <button>Favoritar</button>
+    <button class="btnFav">
+      <img src="./assets/icons/contorno-em-forma-de-coracao.png"/>
+    </button>
+    <button class="btnEdit">Editar</button>
+    <button class="btnDel">Excluir</button>
     `;
+    document.querySelector(".btnDel").addEventListener("click", () => {
+      if (confirm("Deseja deletar o post?")) {
+        localNames.splice(index, 1);
+        localStorage.setItem("cards", JSON.stringify(localNames));
+      }
+    });
+    document.querySelector(".btnFav").addEventListener("click", handleFav);
+    document.querySelector(".btnEdit").addEventListener("click", handleEdit);
     cardsDiv.append(card);
   });
-  
+}
+
+function handleFav(event) {
+  alert();
+}
+
+function handleEdit(event) {
+  alert();
+}
+
+function handleDel(event) {
+  alert();
 }
 
 window.onload = function () {
   displayCards();
-  
-  document.querySelector("#btnCreate").addEventListener('click', handleCreateDiv);
-  document.querySelector("#btnCreateCard").addEventListener('click', handleCreateCard);
+
+  document
+    .querySelector("#btnCreate")
+    .addEventListener("click", handleCreateDiv);
+  document
+    .querySelector("#btnCreateCard")
+    .addEventListener("click", handleCreateCard);
 };
