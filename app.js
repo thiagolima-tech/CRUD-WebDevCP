@@ -145,9 +145,29 @@ function displayCards() {
       displayCards()
     });
     card.querySelector(".btnEdit").addEventListener("click", () => {
-      nomeEdit = prompt(`Mude o nome ${element.nome}`) 
-      if (nomeEdit !== null && nomeEdit.trim() !== ""){
-        element.nome = nomeEdit
+      nomeNew = prompt(`Mude o nome: ${element.nome}`) 
+      if (nomeNew !== null && nomeNew.trim() !== ""){
+        element.nome = nomeNew
+      }
+      posicaoNew = prompt(`Mude a posição: ${element.posicao}`)
+      if (posicaoNew  !== null && posicaoNew.trim() !== ""){
+        element.posicao = posicaoNew 
+      } 
+      clubeNew = prompt(`Mude o nome do clube: ${element.clube}`) 
+      if (clubeNew !== null && clubeNew.trim() !== ""){
+        element.clube = clubeNew
+      }
+      golsNew = prompt(`Mude o número de gols: ${element.gols}`) 
+      if (golsNew !== null && golsNew.trim() !== ""){
+        element.gols = golsNew
+      }
+      assitsNew = prompt(`Mude o número de assistências: ${element.assistencias}`) 
+      if (assitsNew !== null && assitsNew.trim() !== ""){
+        element.assistencias = assitsNew
+      }
+      jogosNew = prompt(`Mude a quantidade de jogos: ${element.jogos}`) 
+      if (jogosNew !== null && jogosNew.trim() !== ""){
+        element.jogos = jogosNew
       }
       localStorage.setItem("cards", JSON.stringify(localNames));
       displayCards()
