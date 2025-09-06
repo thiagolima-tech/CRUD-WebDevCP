@@ -122,7 +122,7 @@ function displayCards() {
     <img src="${element.foto}"></img>
     <h3>${element.nome}</h3>
     <button class="btnFav">
-      <img src="./assets/icons/contorno-em-forma-de-coracao.png"/>
+      <img src="${element.favorita ? './assets/icons/coracao.png' : './assets/icons/contorno-em-forma-de-coracao.png'}"/>
     </button>
     <button class="btnEdit">Editar</button>
     <button class="btnDel">Excluir</button>
@@ -135,17 +135,20 @@ function displayCards() {
       }
     });
     card.querySelector(".btnFav").addEventListener("click", () => {
-      card.querySelector(".btnFav img").src = "./assets/icons/coracao.png";
-      localNames[index].favorita = true;
+      if (!element.favorita){
+        element.favorita = true;
+      }
+      else {
+        element.favorita = false
+      }
       localStorage.setItem("cards", JSON.stringify(localNames));
+      displayCards()
     });
-    card.querySelector(".btnEdit").addEventListener("click", handleEdit);
+    card.querySelector(".btnEdit").addEventListener("click", () => {
+      element.nome = 
+    });
     cardsDiv.append(card);
   });
-}
-
-function handleEdit(event) {
-  alert();
 }
 
 window.onload = function () {
