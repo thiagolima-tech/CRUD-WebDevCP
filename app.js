@@ -145,7 +145,12 @@ function displayCards() {
       displayCards()
     });
     card.querySelector(".btnEdit").addEventListener("click", () => {
-      element.nome = 
+      nomeEdit = prompt(`Mude o nome ${element.nome}`) 
+      if (nomeEdit !== null && nomeEdit.trim() !== ""){
+        element.nome = nomeEdit
+      }
+      localStorage.setItem("cards", JSON.stringify(localNames));
+      displayCards()
     });
     cardsDiv.append(card);
   });
