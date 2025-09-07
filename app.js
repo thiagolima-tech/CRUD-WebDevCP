@@ -3,7 +3,7 @@ let names = [
     nome: "Andressa Alves",
     posicao: "Meio-campo",
     clube: "Corinthians",
-    foto: "https://example.com/andressa.jpg",
+    foto: "./assets/imgs/andressa-alves.jpg",
     gols: 15,
     assistencias: 10,
     jogos: 28,
@@ -13,7 +13,7 @@ let names = [
     nome: "Dayana Rodríguez",
     posicao: "Meio-campo",
     clube: "Corinthians",
-    foto: "https://example.com/dayana.jpg",
+    foto: "./assets/imgs/dayana-Rodríguez.webp",
     gols: 5,
     assistencias: 12,
     jogos: 30,
@@ -23,7 +23,7 @@ let names = [
     nome: "Mariza",
     posicao: "Zagueira",
     clube: "Corinthians",
-    foto: "https://example.com/mariza.jpg",
+    foto: "./assets/imgs/mariza.jpg",
     gols: 2,
     assistencias: 1,
     jogos: 32,
@@ -33,7 +33,7 @@ let names = [
     nome: "Thaís Regina",
     posicao: "Zagueira",
     clube: "Corinthians",
-    foto: "https://example.com/thais.jpg",
+    foto: "./assets/imgs/thais.jpeg",
     gols: 1,
     assistencias: 2,
     jogos: 25,
@@ -43,7 +43,7 @@ let names = [
     nome: "Letícia Teles",
     posicao: "Zagueira",
     clube: "Corinthians",
-    foto: "https://example.com/leticia.jpg",
+    foto: "./assets/imgs/leticia.jpg",
     gols: 0,
     assistencias: 0,
     jogos: 18,
@@ -51,9 +51,6 @@ let names = [
   },
 ];
 
-// fazer botão com contador e cada clique ordena por posição ou por jogadora e guardar essa contagem no local storage
-// Botão editar que transforma o texto em um input e cria um botão cancelar
-// Botão excluir com alert de confirmação
 function handleCreateDiv(event) {
   event.preventDefault();
   const headFunc = document.querySelector("#headFunc");
@@ -119,14 +116,28 @@ function displayCards() {
   localNames.forEach((element, index) => {
     const card = document.createElement("div");
     card.innerHTML = `
-    <img src="${element.foto}"></img>
-    <h3>${element.nome}</h3>
-    <button class="btnFav">
-      <img src="${element.favorita ? './assets/icons/coracao.png' : './assets/icons/contorno-em-forma-de-coracao.png'}"/>
-    </button>
-    <button class="btnEdit">Editar</button>
-    <button class="btnDel">Excluir</button>
+    <div class="player-card">
+      <img class="foto" src="${element.foto}" alt="${element.nome}" />
+      <h3>${element.nome}</h3>
+      <p><strong>Posição:</strong> ${element.posicao}</p>
+      <p><strong>Clube:</strong> ${element.clube}</p>
+      <p><strong>Gols:</strong> ${element.gols}</p>
+      <p><strong>Assistências:</strong> ${element.assistencias}</p>
+      <p><strong>Jogos:</strong> ${element.jogos}</p>
+      <div class="actions">
+        <button class="btnFav">
+          <img src="${
+            element.favorita
+              ? "./assets/icons/coracao.png"
+              : "./assets/icons/contorno-em-forma-de-coracao.png"
+          }" width="24"/>
+        </button>
+        <button class="btnEdit">Editar</button>
+        <button class="btnDel">Excluir</button>
+      </div>
+    </div>
     `;
+
     card.querySelector(".btnDel").addEventListener("click", () => {
       if (confirm("Deseja deletar o post?")) {
         localNames.splice(index, 1);
@@ -135,46 +146,55 @@ function displayCards() {
       }
     });
     card.querySelector(".btnFav").addEventListener("click", () => {
-      if (!element.favorita){
+      if (!element.favorita) {
         element.favorita = true;
-      }
-      else {
-        element.favorita = false
+      } else {
+        element.favorita = false;
       }
       localStorage.setItem("cards", JSON.stringify(localNames));
-      displayCards()
+      displayCards();
     });
     card.querySelector(".btnEdit").addEventListener("click", () => {
-      nomeNew = prompt(`Mude o nome: ${element.nome}`) 
-      if (nomeNew !== null && nomeNew.trim() !== ""){
-        element.nome = nomeNew
+      nomeNew = prompt(`Mude o nome: ${element.nome}`);
+      if (nomeNew !== null && nomeNew.trim() !== "") {
+        element.nome = nomeNew;
       }
-      posicaoNew = prompt(`Mude a posição: ${element.posicao}`)
-      if (posicaoNew  !== null && posicaoNew.trim() !== ""){
-        element.posicao = posicaoNew 
-      } 
-      clubeNew = prompt(`Mude o nome do clube: ${element.clube}`) 
-      if (clubeNew !== null && clubeNew.trim() !== ""){
-        element.clube = clubeNew
+      posicaoNew = prompt(`Mude a posição: ${element.posicao}`);
+      if (posicaoNew !== null && posicaoNew.trim() !== "") {
+        element.posicao = posicaoNew;
       }
-      golsNew = prompt(`Mude o número de gols: ${element.gols}`) 
-      if (golsNew !== null && golsNew.trim() !== ""){
-        element.gols = golsNew
+      clubeNew = prompt(`Mude o nome do clube: ${element.clube}`);
+      if (clubeNew !== null && clubeNew.trim() !== "") {
+        element.clube = clubeNew;
       }
-      assitsNew = prompt(`Mude o número de assistências: ${element.assistencias}`) 
-      if (assitsNew !== null && assitsNew.trim() !== ""){
-        element.assistencias = assitsNew
+      golsNew = prompt(`Mude o número de gols: ${element.gols}`);
+      if (golsNew !== null && golsNew.trim() !== "") {
+        element.gols = golsNew;
       }
-      jogosNew = prompt(`Mude a quantidade de jogos: ${element.jogos}`) 
-      if (jogosNew !== null && jogosNew.trim() !== ""){
-        element.jogos = jogosNew
+      assitsNew = prompt(
+        `Mude o número de assistências: ${element.assistencias}`
+      );
+      if (assitsNew !== null && assitsNew.trim() !== "") {
+        element.assistencias = assitsNew;
+      }
+      jogosNew = prompt(`Mude a quantidade de jogos: ${element.jogos}`);
+      if (jogosNew !== null && jogosNew.trim() !== "") {
+        element.jogos = jogosNew;
       }
       localStorage.setItem("cards", JSON.stringify(localNames));
-      displayCards()
+      displayCards();
     });
     cardsDiv.append(card);
   });
 }
+
+// function handleSearch(event) {
+//   let localNames = JSON.parse(localStorage.getItem("cards"));
+//   localNames.forEach((element) => {
+//     if (element.includes(event)) {
+//     }
+//   });
+// }
 
 window.onload = function () {
   displayCards();
@@ -185,4 +205,5 @@ window.onload = function () {
   document
     .querySelector("#btnCreateCard")
     .addEventListener("click", handleCreateCard);
+  // document.querySelector("#searchBar").addEventListener("change", handleSearch);
 };
